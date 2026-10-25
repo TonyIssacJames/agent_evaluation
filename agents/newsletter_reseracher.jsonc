@@ -61,7 +61,7 @@
     "allow_delegation": false,
 
     // Maximum reasoning iterations per task (prevents infinite loops)
-    "max_iter": 8,
+    "max_iter": 10,
 
     // Maximum tokens for agent's response generation
     // "max_tokens": null,

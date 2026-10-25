@@ -13,10 +13,10 @@
 
       // What the task should accomplish
       // Use {placeholder} inputs here; crewai run prompts for missing values
-      "description": "Research the five most significant developments about {topic} published in the past seven days. Check source credibility and include publication dates and source links. If fewer than five can be verified, report only those verified.",
+      "description": "Research the five most significant developments about {topic} published in the past seven days. Use at least three different publishers; do not rely on a single company's own site. Open each article and read it before summarising. For each item give the exact publication date as YYYY-MM-DD taken from the page, the publisher, and the source link. Never write only a month or guess a date: drop any item whose exact date or link you cannot verify. If fewer than five can be verified, report only those verified.",
 
       // Clear definition of what the output should look like
-      "expected_output": "Five summaries, each with a source link and publication date",
+      "expected_output": "Up to five summaries, each with a source link, the publisher, and an exact YYYY-MM-DD publication date, drawn from at least three different publishers",
 
       // Optional task guardrail(s) validate output before completion
       // Use "guardrail" for one rule or "guardrails" for many
@@ -54,10 +54,10 @@
 
       // What the task should accomplish
       // Use {placeholder} inputs here; crewai run prompts for missing values
-      "description": "Using the research brief, write a newsletter about {topic} in plain language. Include an introduction, a section for each development, and source links. Do not invent facts or sources.",
+      "description": "Using the research brief, write a newsletter about {topic} in plain language. The very first line must be 'Topic: {topic}'. Then add a title, an introduction, a section for each development with its publisher, exact publication date and source link, and a short closing note listing any items dropped because they could not be verified. Do not invent facts, dates or sources.",
 
       // Clear definition of what the output should look like
-      "expected_output": "A polished Markdown newsletter with a title, short introduction, up to five news sections, and source links.",
+      "expected_output": "A polished Markdown newsletter. First line 'Topic: {topic}', then a title, short introduction, up to five news sections each with publisher, YYYY-MM-DD date and source link.",
 
       // Optional task guardrail(s) validate output before completion
       // Use "guardrail" for one rule or "guardrails" for many
@@ -84,8 +84,9 @@
       // Which agent handles this task
       "agent": "newsletter_writer",
 
-      // Save the finished newsletter in the project folder
-      "output_file": "newsletter.md",
+      // Rejects drafts that lack the topic line, exact dates or links (retries up to 2 times)
+      "guardrail": "The newsletter must start with a line beginning 'Topic:', and every news item must include an exact YYYY-MM-DD publication date and a source link.",
+      "guardrail_max_retries": 2,
 
       // Task outputs used as context
       "context": ["research_the_five_most_task"]
@@ -125,8 +126,9 @@
   // For hierarchical crews, manager_agent can reference an agents/<name>.jsonc file
   // that is not included in the "agents" list.
   // "manager_agent": "newsletter_reseracher",
-  // "before_kickoff_callbacks": [{"python": "my_project.callbacks.before_kickoff"}],
-  // "after_kickoff_callbacks": [{"python": "my_project.callbacks.after_kickoff"}],
+  "before_kickoff_callbacks": [{"python": "callbacks.before_kickoff"}],
+  // Saves newsletter_<Topic>_<date>_<time>.md in the current folder (see callbacks.py)
+  "after_kickoff_callbacks": [{"python": "callbacks.after_kickoff"}],
   // "function_calling_llm": "openai/gpt-4o-mini",
   // "max_rpm": null,
   // "cache": true,
