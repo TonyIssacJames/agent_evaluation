@@ -84,6 +84,9 @@
       // Which agent handles this task
       "agent": "newsletter_writer",
 
+      // Save the finished newsletter in the project folder
+      "output_file": "newsletter.md",
+
       // Task outputs used as context
       "context": ["research_the_five_most_task"]
 
@@ -103,7 +106,7 @@
   "verbose": true,
 
   // Enable crew memory — persists context and learnings across tasks
-  "memory": true,
+  "memory": false,
 
   // Automatically plan the execution strategy before running tasks
   // "planning": false,
@@ -138,5 +141,5 @@
   // Use {placeholder} in agent or task text, for example:
   // "description": "Research {topic} and write a brief"
   // `crewai run` prompts for any placeholders missing from this object.
-  "inputs": {}
+  "inputs": {"topic": "AI agents"}
 }
