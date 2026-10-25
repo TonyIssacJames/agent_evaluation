@@ -2,6 +2,20 @@
 
 A crewAI project using JSON-first configuration.
 
+## Setup (how this project was created)
+
+```powershell
+# Install uv (Windows)
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# Install the CrewAI CLI and confirm it is listed
+uv tool install crewai
+uv tool list
+
+# Scaffold the project
+crewai create crew newsletter_crew
+```
+
 ## Running
 
 ```bash
